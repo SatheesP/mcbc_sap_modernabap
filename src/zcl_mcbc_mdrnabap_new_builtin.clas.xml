@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_MCBC_MDRNABAP_NEW_BUILTIN</CLSNAME>
+    <LANGU>E</LANGU>
+    <DESCRIPT>Modern ABAP - New Built-in Functions</DESCRIPT>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CMPNAME>BOOLEAN_FUNCTIONS</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Boolean Functions demo</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>CONDENSE_FUNCTION</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Condense built-in function demo</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>IPOW_NMIN_NMAX</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>New Built-in Functions: ipow, nmin, nmax demo</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>ITAB_FUNCTIONS</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Internal table built-in functions demo</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>

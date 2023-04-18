@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_MCBC_MDRNABAP_CONST_EXP</CLSNAME>
+    <LANGU>E</LANGU>
+    <DESCRIPT>Modern ABAP - Constructor Expressions</DESCRIPT>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CMPNAME>CAST_OPERATOR</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>CAST-Casting Operator demo</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>COND_OPERATOR</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>COND-Conditional Operator demo</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>CONV_OPERATOR</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>CONV-Conversion Operator demo</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>EXACT_OPERATOR</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>EXACT-Lossless Operator demo</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>FILTER_OPERATOR</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>FILTER-Filter Operator demo</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>REF_OPERATOR</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>REF-Reference Operator demo</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>SWITCH_OPERATOR</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>SWITCH-Conditional Operator demo</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>VALUE_OPERATOR</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>VALUE-Value Operator demo</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>

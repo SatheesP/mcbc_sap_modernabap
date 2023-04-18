@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_MCBC_MDRNABAP_TABLE_EXP</CLSNAME>
+    <LANGU>E</LANGU>
+    <DESCRIPT>Modern ABAP - Table Expressions</DESCRIPT>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CMPNAME>READ_NEW_ITAB_COMP_DEFKEY</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NEW WAY:Read itab with components of defined key</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>READ_NEW_ITAB_IDX_DEFKEY</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NEW WAY:Read itab with index access via defined kay</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>READ_NEW_ITAB_INDEX</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NEW WAY:Read itab with Index Access (Primary Table Index)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>READ_NEW_ITAB_KEY</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NEW WAY: Read itab with key</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>READ_NEW_ITAB_ROW_EXISTS</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NEW WAY:Check itab row exists or not</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>READ_NEW_ITAB_SEARCH</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>NEW WAY:Check itab row exists for search criteria</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>READ_OLD_ITAB_COMP_DEFKEY</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>OLD WAY:Read itab with components of defined key</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>READ_OLD_ITAB_IDX_DEFKEY</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>OLD WAY: Read itab with index access via defined key</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>READ_OLD_ITAB_INDEX</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>OLD WAY:Read itab with Index Access (Primary Table Index)</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>READ_OLD_ITAB_KEY</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>OLD WAY:Read itab with key</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>READ_OLD_ITAB_ROW_EXISTS</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>OLD WAY:Check itab row exists or not</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>READ_OLD_ITAB_SEARCH</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>OLD WAY:Check itab row exists for search criteria</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+  </asx:values>
+ </asx:abap>
+</abapGit>
