@@ -13,6 +13,7 @@ Initial session with Evolution & Motivation
     - Data Encapsulation differences for Procedural vs OO
     - Loophole to access dynamically Function Group's global data objects
     - Clean ABAP: https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md
+
 Modern ABAP
   - Inline Declarations
   - Constructor Expressions
