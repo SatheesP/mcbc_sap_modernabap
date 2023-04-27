@@ -88,16 +88,16 @@ CLASS ZCL_MCBC_MDRNABAP_MESHES IMPLEMENTATION.
            tts_place TYPE SORTED TABLE OF ty_place WITH UNIQUE KEY id
                      WITH NON-UNIQUE SORTED KEY by_parent COMPONENTS parent_id
                      WITH NON-UNIQUE SORTED KEY by_ord_id COMPONENTS ord_id,
-           BEGIN OF MESH t_places,
-             place TYPE tts_place
-                 ASSOCIATION _places TO place
+           BEGIN OF MESH tm_place,
+             places TYPE tts_place
+                 ASSOCIATION _places TO places
                           ON parent_id = id,
-           END OF MESH t_places.
+           END OF MESH tm_place.
 
-    DATA lt_places TYPE t_places.
+    DATA lm_place TYPE tm_place.
     DATA lt_ord_places TYPE tt_place.
 
-    lt_places-place = VALUE tts_place( ( id = 'IN' parent_id = '' ord_id = 1 name = 'IN-India' )
+    lm_place-places = VALUE tts_place( ( id = 'IN' parent_id = '' ord_id = 1 name = 'IN-India' )
                                        ( id = 'TN' parent_id = 'IN' ord_id = 2 name = 'IN-TN-Tamilnadu' )
                                        ( id = 'KA' parent_id = 'IN' ord_id = 3 name = 'IN-KA-Karnataka' )
                                        ( id = 'CHE' parent_id = 'TN' ord_id = 4 name = 'IN-TN-CHE-Chennai' )
@@ -113,36 +113,37 @@ CLASS ZCL_MCBC_MDRNABAP_MESHES IMPLEMENTATION.
                                        ( id = 'FE' parent_id = 'ST' ord_id = 104 name = 'EU-DE-ST-FE-Feuerbach' )
                                        ( id = 'RE' parent_id = 'ST' ord_id = 105 name = 'EU-DE-ST-RE-Renningen' )
                                        ( id = 'WE' parent_id = 'ST' ord_id = 106 name = 'EU-DE-ST-WE-Weilimdorf' )
-                                       ( id = 'MUC' parent_id = 'DE' ord_id = 107 name = 'EU-DE-MC-Munich' )
-                                       ( id = 'GB' parent_id = 'MUC' ord_id = 108 name = 'EU-DE-GB-Grasburnn' )
-                                       ( id = 'OB' parent_id = 'MUC' ord_id = 109 name = 'EU-DE-OB-Ottoburnn' )
+                                       ( id = 'MUC' parent_id = 'DE' ord_id = 107 name = 'EU-DE-MUC-Munich' )
+                                       ( id = 'GB' parent_id = 'MUC' ord_id = 108 name = 'EU-DE-MUC-GB-Grasburnn' )
+                                       ( id = 'OB' parent_id = 'MUC' ord_id = 109 name = 'EU-DE-MUC-OB-Ottoburnn' )
                                        ( id = 'BL' parent_id = 'DE' ord_id = 110 name = 'EU-DE-BL-Berlin' ) ).
 
-    DATA(id) = 'TN'.
+    DATA(id) = 'TN '.
     cl_demo_input=>request( CHANGING field = id ).
+    id = to_upper( id ).
 
     out->begin_section( 'Place' ).
 
-    lt_ord_places = VALUE #( FOR place IN lt_places-place USING KEY by_ord_id ( place ) ).
-*    LOOP AT lt_places-place INTO DATA(ls_place) USING KEY by_ord_id.
+    lt_ord_places = VALUE #( FOR place IN lm_place-places USING KEY by_ord_id ( place ) ).
+*      LOOP AT lt_places-place INTO DATA(ls_place) USING KEY by_ord_id.
 *      APPEND ls_place TO lt_ord_places.
-*    ENDLOOP.
+*      ENDLOOP.
     out->write( lt_ord_places ).
 
-    IF line_exists( lt_places-place[ id = id ] ).
+    IF line_exists( lm_place-places[ id = id ] ).
       out->next_section( '\_places (immediate children)' ).
       out->write( VALUE tt_place(
-         FOR <node> IN lt_places-place\_places[ lt_places-place[ id = id ] ]
+         FOR <node> IN lm_place-places\_places[ lm_place-places[ id = id ] ]
             ( <node> ) ) ).
 
       out->next_section( '\_places+ (immediate and all children in hierarchy)' ).
       out->write( VALUE tt_place(
-         FOR <node> IN lt_places-place\_places+[ lt_places-place[ id = id ] ]
+         FOR <node> IN lm_place-places\_places+[ lm_place-places[ id = id ] ]
             ( <node> ) ) ).
 
       out->next_section( '\_places* (Parent node, immediate and all children in hierarchy)' ).
       out->write( VALUE tt_place(
-         FOR <node> IN lt_places-place\_places*[ lt_places-place[ id = id ] ]
+         FOR <node> IN lm_place-places\_places*[ lm_place-places[ id = id ] ]
             ( <node> ) ) ) ##PRIMKEY[BY_PARENT].
     ELSE.
       out->write( `Enter a valid ID ...` ).

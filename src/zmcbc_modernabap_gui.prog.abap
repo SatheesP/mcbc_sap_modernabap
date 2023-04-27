@@ -85,6 +85,7 @@ START-OF-SELECTION.
 
 **- Display the output of the Old Method
     IF <fs_modernabap>-execute_method = abap_true AND <fs_modernabap>-old_method_name IS NOT INITIAL.
+      go_out->line( ).
       CALL METHOD lo_modern_abap->(<fs_modernabap>-old_method_name).
     ENDIF.
 
@@ -103,6 +104,7 @@ START-OF-SELECTION.
 
 ** Display the output of the New Method
   IF <fs_modernabap>-execute_method = abap_true AND <fs_modernabap>-new_method_name IS NOT INITIAL.
+    go_out->line( ).
     CALL METHOD lo_modern_abap->(<fs_modernabap>-new_method_name).
   ENDIF.
 

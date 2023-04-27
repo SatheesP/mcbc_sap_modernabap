@@ -267,7 +267,7 @@ CLASS ZCL_MCBC_MODERNABAP IMPLEMENTATION.
         subtopic_text = 'LOOP .. GROUP BY + AT GROUP with sorting'
         class_key-clsname = 'ZCL_MCBC_MDRNABAP_TABLE_EXP'
         old_method_name = 'LWG_OLD_LOOP_AT_WTH_SORTING'
-        new_method_name = 'LWG_NEW_LOOP_AT_WTH_SORTING'
+        new_method_name = 'LWG_NEW_LOOP_GROUPBY_ATGROUP'
         execute_method = abap_true )
        ( topic_key = 'C'
         topic_text = lt_dd07[ domvalue_l = 'C' ]-ddtext

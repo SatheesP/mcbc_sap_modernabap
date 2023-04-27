@@ -24,7 +24,7 @@ START-OF-SELECTION.
 
   WRITE: 'Car: ' COLOR COL_HEADING, gv_car COLOR COL_HEADING.
 
-*  PERFORM drive_car.
+  PERFORM drive_car.
   PERFORM access_internal_data.
 
 

@@ -28,7 +28,7 @@ CLASS lcl_obsolete_syntax_chk IMPLEMENTATION.
     DATA lv_month TYPE string.
 
     CASE sy-datum+3(2).
-      "CLEAR lv_month.
+        "CLEAR lv_month.
       WHEN '01'.
         lv_month = 'Jan'.
 
@@ -61,7 +61,7 @@ FORM obsolete_syntax1.
   DATA lv_month TYPE string.
 
   CASE sy-datum+3(2).
-    CLEAR lv_month.
+      CLEAR lv_month.
     WHEN '01'.
       lv_month = 'Jan'.
 

@@ -24,7 +24,6 @@ CLASS zcl_mcbc_mdrnabap_table_exp DEFINITION
     METHODS lwg_old_loopatcmd_wosort .
     METHODS lwg_new_loop_groupby_atgroup .
     METHODS lwg_old_loop_at_wth_sorting .
-    METHODS lwg_new_loop_at_wth_sorting .
     METHODS lwg_old_loop_itab_unique_rec .
     METHODS lwg_new_loop_itab_unique_rec .
     METHODS lwg_old_loop_at_multiple_keys .
@@ -308,7 +307,6 @@ CLASS ZCL_MCBC_MDRNABAP_TABLE_EXP IMPLEMENTATION.
       tt_exam TYPE SORTED TABLE OF ty_exam WITH UNIQUE KEY examid,
 
       BEGIN OF ty_mark,
-
         examid  TYPE c LENGTH 1,
         rollno  TYPE n LENGTH 4,
         subject TYPE  string,
@@ -405,7 +403,7 @@ CLASS ZCL_MCBC_MDRNABAP_TABLE_EXP IMPLEMENTATION.
     TYPES: BEGIN OF ty_expenses,
              exp_date     TYPE string,
              person_name  TYPE string,
-             exp_category TYPE string,
+             exp_category TYPE string,  " AT NEW we use this column, but person name also considered
              exp_amount   TYPE i,
            END OF ty_expenses,
            tt_expenses TYPE STANDARD TABLE OF ty_expenses.
@@ -414,58 +412,27 @@ CLASS ZCL_MCBC_MDRNABAP_TABLE_EXP IMPLEMENTATION.
           total         TYPE i.
 
     itab_expenses = VALUE #(
-         ( exp_date = '15.03.2023' person_name = 'swathi'    exp_category = 'Tickets' exp_amount = '500' )
-         ( exp_date = '01.03.2023' person_name = 'sathees'   exp_category = 'Fuel' exp_amount = '200' )
-         ( exp_date = '12.03.2023' person_name = 'kiran'     exp_category = 'Fuel' exp_amount = '500' )
-         ( exp_date = '01.03.2023' person_name = 'swathi'    exp_category = 'Tickets' exp_amount = '800' )
-         ( exp_date = '12.03.2023' person_name = 'swathi'    exp_category = 'Food' exp_amount = '1000' )
-         ( exp_date = '15.03.2023' person_name = 'kiran'     exp_category = 'Food' exp_amount = '700' )
-         ( exp_date = '01.03.2023' person_name = 'kiran'     exp_category = 'Food' exp_amount = '500' )
-       ).
+      ( exp_date = '15.03.2023' person_name = 'swathi'  exp_category = 'Tickets' exp_amount = 500 )
+      ( exp_date = '01.03.2023' person_name = 'sathees' exp_category = 'Fuel'    exp_amount = 200 )
+      ( exp_date = '12.03.2023' person_name = 'kiran'   exp_category = 'Fuel'    exp_amount = 500 )
+      ( exp_date = '01.03.2023' person_name = 'swathi'  exp_category = 'Tickets' exp_amount = 800 )
+      ( exp_date = '16.03.2023' person_name = 'sathees' exp_category = 'Fuel'    exp_amount = 500 )
+      ( exp_date = '12.03.2023' person_name = 'swathi'  exp_category = 'Food'    exp_amount = 1000 )
+      ( exp_date = '15.03.2023' person_name = 'kiran'   exp_category = 'Food'    exp_amount = 700 )
+      ( exp_date = '08.03.2023' person_name = 'sathees' exp_category = 'Fuel'    exp_amount = 200 )
+      ( exp_date = '11.03.2023' person_name = 'swathi'  exp_category = 'Tickets' exp_amount = 700 )
+      ( exp_date = '01.03.2023' person_name = 'kiran'   exp_category = 'Food'    exp_amount = 500 )
+      ( exp_date = '13.03.2023' person_name = 'swathi'  exp_category = 'Tickets' exp_amount = 500 )
+    ).
 
     out->write( `Multiple Keys` ).
     LOOP AT itab_expenses   INTO DATA(expenses)
-      GROUP BY ( exp_date  = expenses-exp_date exp_category = expenses-exp_category
+      GROUP BY ( name = expenses-person_name category = expenses-exp_category
                                             grpsize = GROUP SIZE grpidx = GROUP INDEX )
-                                             WITHOUT MEMBERS INTO DATA(grpkey).
+                                             WITHOUT MEMBERS INTO DATA(grp).
       " LOOP + GROUP with Multiple keys example
 
-      out->write( |Idx { grpkey-grpidx }; records { grpkey-grpsize }; Expense date: { grpkey-exp_date } Category: { grpkey-exp_category }| ).
-    ENDLOOP.
-
-  ENDMETHOD.
-
-
-  METHOD lwg_new_loop_at_wth_sorting.
-
-    TYPES: BEGIN OF ty_expenses,
-             exp_date     TYPE string,
-             exp_category TYPE string,
-             exp_amount   TYPE i,
-           END OF ty_expenses,
-           tt_expenses TYPE STANDARD TABLE OF ty_expenses.
-
-    DATA: itab_expenses TYPE tt_expenses,
-          total         TYPE i.
-
-    itab_expenses = VALUE #( ( exp_date = '01.03.2023' exp_category = 'Food' exp_amount = '500' )
-                             ( exp_date = '01.03.2023' exp_category = 'Fuel' exp_amount = '200' )
-                             ( exp_date = '01.03.2023' exp_category = 'Tickets' exp_amount = '800' )
-                             ( exp_date = '12.03.2023' exp_category = 'Food' exp_amount = '1000' )
-                             ( exp_date = '12.03.2023' exp_category = 'Fuel' exp_amount = '500' )
-                             ( exp_date = '15.03.2023' exp_category = 'Food' exp_amount = '700' )
-                             ( exp_date = '15.03.2023' exp_category = 'Tickets' exp_amount = '500' )
-                           ).
-
-    LOOP AT itab_expenses INTO DATA(ls_expenses) GROUP BY ( key = ls_expenses-exp_date )
-                                        INTO DATA(exp_date).
-
-      total = 0.
-      LOOP AT GROUP exp_date INTO DATA(expense).
-        total = total + expense-exp_amount.
-      ENDLOOP.
-      out->write( | Total Expense Amount on { expense-exp_date } is: { total }.| ).
-
+      out->write( |Idx { grp-grpidx }; records { grp-grpsize }; Name: { grp-name } Category: { grp-category }| ).
     ENDLOOP.
 
   ENDMETHOD.
@@ -483,22 +450,22 @@ CLASS ZCL_MCBC_MDRNABAP_TABLE_EXP IMPLEMENTATION.
     DATA: itab_expenses TYPE tt_expenses,
           total         TYPE i.
 
-    itab_expenses = VALUE #( ( exp_date = '01.03.2023' exp_category = 'Food' exp_amount = '500' )
-                             ( exp_date = '01.03.2023' exp_category = 'Fuel' exp_amount = '200' )
-                             ( exp_date = '01.03.2023' exp_category = 'Tickets' exp_amount = '800' )
-                             ( exp_date = '12.03.2023' exp_category = 'Food' exp_amount = '1000' )
-                             ( exp_date = '12.03.2023' exp_category = 'Fuel' exp_amount = '500' )
-                             ( exp_date = '15.03.2023' exp_category = 'Food' exp_amount = '700' )
-                             ( exp_date = '15.03.2023' exp_category = 'Tickets' exp_amount = '500' )
+    itab_expenses = VALUE #( ( exp_date = '01.03.2023' exp_category = 'Food'    exp_amount = 500 )
+                             ( exp_date = '01.03.2023' exp_category = 'Fuel'    exp_amount = 200 )
+                             ( exp_date = '01.03.2023' exp_category = 'Tickets' exp_amount = 800 )
+                             ( exp_date = '12.03.2023' exp_category = 'Food'    exp_amount = 1000 )
+                             ( exp_date = '12.03.2023' exp_category = 'Fuel'    exp_amount = 500 )
+                             ( exp_date = '15.03.2023' exp_category = 'Food'    exp_amount = 700 )
+                             ( exp_date = '15.03.2023' exp_category = 'Tickets' exp_amount = 500 )
                            ).
 
-    LOOP AT itab_expenses INTO DATA(ls_expenses) GROUP BY ( key = ls_expenses-exp_date )
-                                        INTO DATA(exp_date).
+    LOOP AT itab_expenses INTO DATA(ls_expense) GROUP BY ( key = ls_expense-exp_category )
+                                        INTO DATA(exp_grp).
       total = 0.
-      LOOP AT GROUP exp_date INTO DATA(expense).
-        total = total + expense-exp_amount.
+      LOOP AT GROUP exp_grp INTO DATA(ls_expgrp).
+        total = total + ls_expgrp-exp_amount.
       ENDLOOP.
-      out->write( | Total Expense Amount on { expense-exp_date } is: { total }.| ).
+      out->write( | Total Expense Amount on { ls_expgrp-exp_category } is: { total }.| ).
 
     ENDLOOP.
 
@@ -516,15 +483,14 @@ CLASS ZCL_MCBC_MDRNABAP_TABLE_EXP IMPLEMENTATION.
     DATA: itab_expenses TYPE tt_expenses.
 
     itab_expenses = VALUE #(
-                             ( exp_date = '15.03.2023' exp_category = 'Tickets' exp_amount = '500' )
-                             ( exp_date = '01.03.2023' exp_category = 'Fuel' exp_amount = '200' )
-                             ( exp_date = '12.03.2023' exp_category = 'Fuel' exp_amount = '500' )
-                             ( exp_date = '01.03.2023' exp_category = 'Tickets' exp_amount = '800' )
-                             ( exp_date = '12.03.2023' exp_category = 'Food' exp_amount = '1000' )
-                             ( exp_date = '15.03.2023' exp_category = 'Food' exp_amount = '700' )
-                             ( exp_date = '01.03.2023' exp_category = 'Food' exp_amount = '500' )
-
-                           ).
+      ( exp_date = '15.03.2023' exp_category = 'Tickets' exp_amount = 500 )
+      ( exp_date = '01.03.2023' exp_category = 'Fuel'    exp_amount = 200 )
+      ( exp_date = '12.03.2023' exp_category = 'Fuel'    exp_amount = 500 )
+      ( exp_date = '01.03.2023' exp_category = 'Tickets' exp_amount = 800 )
+      ( exp_date = '12.03.2023' exp_category = 'Food'    exp_amount = 1000 )
+      ( exp_date = '15.03.2023' exp_category = 'Food'    exp_amount = 700 )
+      ( exp_date = '01.03.2023' exp_category = 'Food'    exp_amount = 500 )
+    ).
 
     " LOOP + GROUP to find unique records
     " To find unique records without using temp internal table
@@ -534,9 +500,9 @@ CLASS ZCL_MCBC_MDRNABAP_TABLE_EXP IMPLEMENTATION.
 
     out->write( `Unique Expense Categories` ).
     LOOP AT itab_expenses INTO DATA(expense)
-                                 GROUP BY ( key = expense-exp_category grpsize = GROUP SIZE grpidx = GROUP INDEX )
-                                 WITHOUT MEMBERS INTO DATA(key).
-      out->write( |{ key-grpidx }. Category: { key-key } - { key-grpsize } rows| ).
+                               GROUP BY ( key = expense-exp_category grpsize = GROUP SIZE grpidx = GROUP INDEX )
+                               WITHOUT MEMBERS INTO DATA(grp).
+      out->write( |{ grp-grpidx }. Category: { grp-key } - { grp-grpsize } rows| ).
     ENDLOOP.
 
   ENDMETHOD.
@@ -554,28 +520,28 @@ CLASS ZCL_MCBC_MDRNABAP_TABLE_EXP IMPLEMENTATION.
     DATA: itab_expenses TYPE tt_expenses,
           total         TYPE i.
 
-    itab_expenses = VALUE #( ( exp_date = '01.03.2023' exp_category = 'Food' exp_amount = '500' )
-                             ( exp_date = '01.03.2023' exp_category = 'Fuel' exp_amount = '200' )
-                             ( exp_date = '01.03.2023' exp_category = 'Tickets' exp_amount = '800' )
-                             ( exp_date = '12.03.2023' exp_category = 'Food' exp_amount = '1000' )
-                             ( exp_date = '12.03.2023' exp_category = 'Fuel' exp_amount = '500' )
-                             ( exp_date = '15.03.2023' exp_category = 'Food' exp_amount = '700' )
-                             ( exp_date = '15.03.2023' exp_category = 'Tickets' exp_amount = '500' )
+    itab_expenses = VALUE #( ( exp_category = 'Food'    exp_date = '01.03.2023' exp_amount = 500 )
+                             ( exp_category = 'Fuel'    exp_date = '01.03.2023' exp_amount = 200 )
+                             ( exp_category = 'Tickets' exp_date = '01.03.2023' exp_amount = 800 )
+                             ( exp_category = 'Food'    exp_date = '12.03.2023' exp_amount = 1000 )
+                             ( exp_category = 'Fuel'    exp_date = '12.03.2023' exp_amount = 500 )
+                             ( exp_category = 'Food'    exp_date = '15.03.2023' exp_amount = 700 )
+                             ( exp_category = 'Tickets' exp_date = '15.03.2023' exp_amount = 500 )
                            ).
 
     out->write( `LOOP + AT command grouping` ).
 
-    LOOP AT itab_expenses INTO DATA(ls_expenses).
+    LOOP AT itab_expenses INTO DATA(ls_expense).
       AT NEW exp_category.
         " out->write( `Expense Date: ` && ls_expenses-exp_date ).
         total = 0.
       ENDAT.
 
-      total = total + ls_expenses-exp_amount.
+      total = total + ls_expense-exp_amount.
       " out->write( |{ ls_expenses-exp_category } { ls_expenses-exp_amount }| ).
 
       AT END OF exp_date.
-        out->write( | Total expenses on Category { ls_expenses-exp_category } is: { total }| ).
+        out->write( | Total expenses on Category { ls_expense-exp_category } is: { total }| ).
       ENDAT.
 
     ENDLOOP.
@@ -595,30 +561,33 @@ CLASS ZCL_MCBC_MDRNABAP_TABLE_EXP IMPLEMENTATION.
 
     DATA: itab_expenses TYPE tt_expenses,
           result        TYPE tt_expenses,
+          count         TYPE i,
           total         TYPE i.
 
     itab_expenses = VALUE #(
-           ( exp_date = '15.03.2023' person_name = 'swathi'    exp_category = 'Tickets' exp_amount = '500' )
-           ( exp_date = '01.03.2023' person_name = 'sathees'   exp_category = 'Fuel' exp_amount = '200' )
-           ( exp_date = '12.03.2023' person_name = 'kiran'     exp_category = 'Fuel' exp_amount = '500' )
-           ( exp_date = '01.03.2023' person_name = 'swathi'    exp_category = 'Tickets' exp_amount = '800' )
-           ( exp_date = '16.03.2023' person_name = 'sathees'   exp_category = 'Fuel' exp_amount = '500' )
-           ( exp_date = '12.03.2023' person_name = 'swathi'    exp_category = 'Food' exp_amount = '1000' )
-           ( exp_date = '15.03.2023' person_name = 'kiran'     exp_category = 'Food' exp_amount = '700' )
-           ( exp_date = '08.03.2023' person_name = 'sathees'   exp_category = 'Fuel' exp_amount = '200' )
-           ( exp_date = '11.03.2023' person_name = 'swathi'    exp_category = 'Tickets' exp_amount = '700' )
-           ( exp_date = '01.03.2023' person_name = 'kiran'     exp_category = 'Food' exp_amount = '500' )
-           ( exp_date = '13.03.2023' person_name = 'swathi'    exp_category = 'Tickets' exp_amount = '500' )
-         ).
+      ( person_name = 'swathi'  exp_category = 'Tickets' exp_date = '15.03.2023' exp_amount = 500 )
+      ( person_name = 'sathees' exp_category = 'Fuel'    exp_date = '01.03.2023' exp_amount = 200 )
+      ( person_name = 'kiran'   exp_category = 'Fuel'    exp_date = '12.03.2023' exp_amount = 500 )
+      ( person_name = 'swathi'  exp_category = 'Tickets' exp_date = '01.03.2023' exp_amount = 800 )
+      ( person_name = 'sathees' exp_category = 'Fuel'    exp_date = '16.03.2023' exp_amount = 500 )
+      ( person_name = 'swathi'  exp_category = 'Food'    exp_date = '12.03.2023' exp_amount = 1000 )
+      ( person_name = 'kiran'   exp_category = 'Food'    exp_date = '15.03.2023' exp_amount = 700 )
+      ( person_name = 'sathees' exp_category = 'Fuel'    exp_date = '08.03.2023' exp_amount = 200 )
+      ( person_name = 'swathi'  exp_category = 'Tickets' exp_date = '11.03.2023' exp_amount = 700 )
+      ( person_name = 'kiran'   exp_category = 'Food'    exp_date = '01.03.2023' exp_amount = 500 )
+      ( person_name = 'swathi'  exp_category = 'Tickets' exp_date = '13.03.2023' exp_amount = 500 )
+    ).
 
     SORT itab_expenses ASCENDING BY person_name exp_category.
     LOOP AT itab_expenses INTO DATA(expense).
       AT NEW exp_category.
         total = 0.
+        count = 0.
       ENDAT.
       total = total + expense-exp_amount.
+      count = count + 1.
       AT END OF exp_category.
-        out->write( |Total Expenses for Person { expense-person_name }, Category { expense-exp_category } is: { total }| ).
+        out->write( |Total Expenses for Person { expense-person_name }, Category { expense-exp_category } is: { total }; { count } rows| ).
       ENDAT.
 
     ENDLOOP.
@@ -639,14 +608,14 @@ CLASS ZCL_MCBC_MDRNABAP_TABLE_EXP IMPLEMENTATION.
           total         TYPE i.
 
     itab_expenses = VALUE #(
-       ( exp_date = '15.03.2023' exp_category = 'Tickets' exp_amount = '500' )
-       ( exp_date = '01.03.2023' exp_category = 'Fuel' exp_amount = '200' )
-       ( exp_date = '12.03.2023' exp_category = 'Fuel' exp_amount = '500' )
-       ( exp_date = '01.03.2023' exp_category = 'Tickets' exp_amount = '800' )
-       ( exp_date = '12.03.2023' exp_category = 'Food' exp_amount = '1000' )
-       ( exp_date = '15.03.2023' exp_category = 'Food' exp_amount = '700' )
-       ( exp_date = '01.03.2023' exp_category = 'Food' exp_amount = '500' )
-     ).
+      ( exp_category = 'Tickets' exp_date = '15.03.2023' exp_amount = 500 )
+      ( exp_category = 'Fuel'    exp_date = '01.03.2023' exp_amount = 200 )
+      ( exp_category = 'Fuel'    exp_date = '12.03.2023' exp_amount = 500 )
+      ( exp_category = 'Tickets' exp_date = '01.03.2023' exp_amount = 800 )
+      ( exp_category = 'Food'    exp_date = '12.03.2023' exp_amount = 1000 )
+      ( exp_category = 'Food'    exp_date = '15.03.2023' exp_amount = 700 )
+      ( exp_category = 'Food'    exp_date = '01.03.2023' exp_amount = 500 )
+    ).
 
     SORT itab_expenses BY  exp_category.
     out->write( `LOOP + AT command grouping with sorting` ).
@@ -679,14 +648,14 @@ CLASS ZCL_MCBC_MDRNABAP_TABLE_EXP IMPLEMENTATION.
           idx           TYPE i.
 
     itab_expenses = VALUE #(
-         ( exp_date = '15.03.2023' exp_category = 'Tickets' exp_amount = '500' )
-         ( exp_date = '01.03.2023' exp_category = 'Fuel' exp_amount = '200' )
-         ( exp_date = '12.03.2023' exp_category = 'Fuel' exp_amount = '500' )
-         ( exp_date = '01.03.2023' exp_category = 'Tickets' exp_amount = '800' )
-         ( exp_date = '12.03.2023' exp_category = 'Food' exp_amount = '1000' )
-         ( exp_date = '15.03.2023' exp_category = 'Food' exp_amount = '700' )
-         ( exp_date = '01.03.2023' exp_category = 'Food' exp_amount = '500' )
-       ).
+       ( exp_category = 'Tickets' exp_date = '15.03.2023' exp_amount = 500 )
+       ( exp_category = 'Fuel'    exp_date = '01.03.2023' exp_amount = 200 )
+       ( exp_category = 'Fuel'    exp_date = '12.03.2023' exp_amount = 500 )
+       ( exp_category = 'Tickets' exp_date = '01.03.2023' exp_amount = 800 )
+       ( exp_category = 'Food'    exp_date = '12.03.2023' exp_amount = 1000 )
+       ( exp_category = 'Food'    exp_date = '15.03.2023' exp_amount = 700 )
+       ( exp_category = 'Food'    exp_date = '01.03.2023' exp_amount = 500 )
+    ).
 
     SORT itab_expenses ASCENDING BY exp_category.
     LOOP AT itab_expenses INTO DATA(expense).

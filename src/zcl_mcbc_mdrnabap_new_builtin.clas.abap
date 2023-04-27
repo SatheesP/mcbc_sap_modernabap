@@ -5,10 +5,10 @@ CLASS zcl_mcbc_mdrnabap_new_builtin DEFINITION
 
   PUBLIC SECTION.
 
-    METHODS ipow_nmin_nmax .
-    METHODS boolean_functions .
-    METHODS itab_functions .
-    METHODS condense_function .
+    METHODS ipow_nmin_nmax.
+    METHODS boolean_functions.
+    METHODS itab_functions.
+    METHODS condense_function.
 
   PROTECTED SECTION.
   PRIVATE SECTION.
@@ -76,38 +76,32 @@ CLASS ZCL_MCBC_MDRNABAP_NEW_BUILTIN IMPLEMENTATION.
 
     DATA(text) = `  Good   Night   `.
 
-*--Normal usage: Removes all leading and trailing spaces( works like 'trim' function in other languages)
+    out->write( |1.  Actual text: "{ text }"| ).
 
-    DATA(condense) = condense( text ). "If only text has to be condensed, no parameter names needed
-    out->write( condense ).
+*-- Normal usage: Removes all leading and trailing spaces( works like 'trim' function in other languages)
+*-- del, from and to will have a default value as ` ` blank space
+*-- repeated 'from' param in text will be replaced by 1st char of 'to' param
+*-- If only text has to be condensed, no parameter names needed
+    out->write( |2. Simple usage: "{ condense( text ) }"| ).
 
-*--Only Delete: When del = text to delete
+*-- del param usage: All leading and trailing characters specified in del are removed from text.
+    out->write( |3.  Only Delete: "{ condense( val = text del = `Good ` ) }"| ).
+    out->write( |4.  Only Delete: "{ condense( val = text del = 'Good ' ) }"| ).
 
-    DATA(condense_del_char) = condense( val = text del = `Good ` ).
-    out->write( 'Only Delete : '  && condense_del_char ).
+*-- Only Replace: from = char/string to replace,
+*-- to = text to replace with (takes only first character from text is considered)
+    out->write( |5. Only Replace: "{ condense( val = text from = `N` to = `Fabc` ) }"| ).
 
-*--Only Replace: when 'del' = space, from = char/string to replace,
-*--to = text to replace with (takes only first character from text)
+*-- The argument 'from' can be a single character or a text
+    out->write( |6. Only Replace: "{ condense( val = text del = ` ` from = `Good` to = `-` ) }"| ).
 
-    DATA(condense_replace_char) = condense( val = text
-                                            del = ` `
-                                            from = `N` to = `F*` ).
-    out->write( 'Only Replace : ' && condense_replace_char ).
+*-- del param with wrong character value leads to issue
+    out->write( |7. Only Replace: "{ condense( val = text del = ' ' from = `Good` to = `-` ) }"| ).
 
-*--The argument 'from' can be a single character or a text
-
-    DATA(condense_replace_char1) = condense( val = text
-                                             del = ` `
-                                             from = `Good` to = ` ` ).
-    out->write( 'Only Replace : ' && condense_replace_char1 ).
-
-*--Delete & Replace: When del = text to delete, from = old text to replace ,
-*--to = text to replace with(takes only first character from text)
-
-    DATA(condense_del_replace) = condense( val = text
-                                           del = `Good`
-                                           from = `N` to = `F` ).
-    out->write( 'Delete & Replace : ' && condense_del_replace ).
+*-- Delete & Replace: del param usage: All leading and trailing characters specified in del are removed from the string in text.
+*-- from = text to replace by,
+*-- to = text to replace with(takes only first character from text)
+    out->write( |8. Del & Replce: "{ condense( val = text del = `Good ` from = `N` to = `Fxyz` ) }"| ).
 
   ENDMETHOD.
 

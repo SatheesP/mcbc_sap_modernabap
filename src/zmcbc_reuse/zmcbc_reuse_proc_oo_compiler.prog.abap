@@ -22,10 +22,10 @@ START-OF-SELECTION.
 "---------------------------------------------"
 **--  Procedural code how compiler treats  --**
 "---------------------------------------------"
-  CALL FUNCTION 'POPUP_TO_INFORM'
+  CALL FUNCTION 'POPUP_TO_INFORM1'
     EXPORTING
       titel = sy-title    " Title line of dialog box
-      txt1  = 'How Compiler behaves'
+      txt12  = 'How Compiler behaves'
       txt2  = 'for Procedural programming and'
       txt3  = 'for Object Oriented programming'.
 

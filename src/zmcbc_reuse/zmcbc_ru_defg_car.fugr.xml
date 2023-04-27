@@ -4,7 +4,6 @@
   <asx:values>
    <AREAT>Reuse | Data Encapsulation | FUGR Car</AREAT>
    <INCLUDES>
-    <SOBJ_NAME>LZMCBC_RU_DEFG_CARTOP</SOBJ_NAME>
     <SOBJ_NAME>SAPLZMCBC_RU_DEFG_CAR</SOBJ_NAME>
    </INCLUDES>
    <FUNCTIONS>
