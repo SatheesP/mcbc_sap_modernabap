@@ -1,5 +1,5 @@
 # mcbc_sap_modernabap
-Master Class - SAP Modern ABAP - BOOTCAMP
+Master Class | SAP Modern ABAP - BOOTCAMP
 
 Initial session with Evolution & Motivation
   - ABAP Evolution
